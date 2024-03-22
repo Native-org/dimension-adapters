@@ -4,7 +4,7 @@ import { CHAIN } from "../../helpers/chains";
 import { getUniqStartOfTodayTimestamp } from "../../helpers/getUniSubgraphVolume";
 
 const endpoints: { [key: string]: string } = {
-  [CHAIN.BSC]: "https://api.thegraph.com/subgraphs/name/metaverseblock/ede_stats_elpall_test",
+  // [CHAIN.BSC]: "https://api.thegraph.com/subgraphs/name/metaverseblock/ede_stats_elpall_test",
   [CHAIN.ARBITRUM]: "https://api.thegraph.com/subgraphs/name/metaverseblock/ede_state_elp1_arbitrimone",
 }
 
@@ -59,14 +59,10 @@ const getFetch = (query: string)=> (chain: string): Fetch => async (timestamp: n
   }
 }
 
-const getStartTimestamp = async (chain: string) => {
-  const startTimestamps: { [chain: string]: number } = {
-    [CHAIN.BSC]: 1670198400,
-    [CHAIN.ARBITRUM]: 1678118400,
-  }
-  return startTimestamps[chain]
+const startTimestamps: { [chain: string]: number } = {
+  [CHAIN.BSC]: 1670198400,
+  [CHAIN.ARBITRUM]: 1678118400,
 }
-
 //
 // const adapter: SimpleAdapter = {
 //   adapter: {
@@ -89,7 +85,7 @@ const adapter: BreakdownAdapter = {
         ...acc,
         [chain]: {
           fetch: getFetch(historicalDataSwap)(chain),
-          start: async () => getStartTimestamp(chain)
+          start: startTimestamps[chain]
         }
       }
     }, {}),
@@ -98,7 +94,7 @@ const adapter: BreakdownAdapter = {
         ...acc,
         [chain]: {
           fetch: getFetch(historicalDataDerivatives)(chain),
-          start: async () => getStartTimestamp(chain)
+          start: startTimestamps[chain]
         }
       }
     }, {})

@@ -1,10 +1,10 @@
-import { ChainEndpoints, BreakdownAdapter, BaseAdapter, FetchResultVolume } from "../../adapters/types";
-import { getChainVolume, getUniqStartOfTodayTimestamp } from "../../helpers/getUniSubgraphVolume";
-import customBackfill from "../../helpers/customBackfill";
-import { CHAIN } from "../../helpers/chains";
 import { Chain } from "@defillama/sdk/build/general";
-import { getStartTimestamp } from "../../helpers/getStartTimestamp";
 import request, { gql } from "graphql-request";
+import { BaseAdapter, BreakdownAdapter, ChainEndpoints, FetchResultV2, FetchResultVolume, FetchV2 } from "../../adapters/types";
+import { CHAIN } from "../../helpers/chains";
+import customBackfill from "../../helpers/customBackfill";
+import { getStartTimestamp } from "../../helpers/getStartTimestamp";
+import { getChainVolume, getUniqStartOfTodayTimestamp } from "../../helpers/getUniSubgraphVolume";
 import { getTimestampAtStartOfDayUTC } from "../../utils/date";
 
 const endpoints: ChainEndpoints = {
@@ -15,7 +15,8 @@ const endpoints: ChainEndpoints = {
     "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-arbitrum-v2",
   [CHAIN.XDAI]: "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-gnosis-chain-v2",
   [CHAIN.POLYGON_ZKEVM]: "https://api.studio.thegraph.com/query/24660/balancer-polygon-zk-v2/version/latest",
-  [CHAIN.AVAX]: "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-avalanche-v2"
+  [CHAIN.AVAX]: "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-avalanche-v2",
+  [CHAIN.BASE]: "https://api.studio.thegraph.com/query/24660/balancer-base-v2/version/latest"
 };
 
 const graphParams = {
@@ -36,8 +37,8 @@ interface IPoolSnapshot {
 
 
 const v2Graphs = (chain: Chain) => {
-    return async (timestamp: number): Promise<FetchResultVolume> => {
-      const startTimestamp = getTimestampAtStartOfDayUTC(timestamp)
+    return async ({ endTimestamp }): Promise<FetchResultV2> => {
+      const startTimestamp = getTimestampAtStartOfDayUTC(endTimestamp)
       const fromTimestamp = startTimestamp - 60 * 60 * 24
       const toTimestamp = startTimestamp
       const graphQuery = gql
@@ -61,7 +62,6 @@ const v2Graphs = (chain: Chain) => {
 
       return {
         dailyVolume: `${dailyVolume}`,
-        timestamp,
       };
     };
   };
@@ -75,12 +75,12 @@ const v1graphs = getChainVolume({
 });
 
 const adapter: BreakdownAdapter = {
+  version: 2,
   breakdown: {
     v1: {
       [CHAIN.ETHEREUM]: {
         fetch: v1graphs(CHAIN.ETHEREUM),
-        start: async () => 1582761600,
-        customBackfill: customBackfill(CHAIN.ETHEREUM, v1graphs)
+        start: 1582761600
       },
     },
     v2: Object.keys(endpoints).reduce((acc, chain) => {

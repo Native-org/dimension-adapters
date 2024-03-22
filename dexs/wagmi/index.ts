@@ -1,14 +1,30 @@
+import { SimpleAdapter } from "../../adapters/types";
 import { CHAIN } from "../../helpers/chains";
-import { univ2Adapter } from "../../helpers/getUniSubgraphVolume";
+import { fetchVolume } from "./wagmi";
 
-const adapters = univ2Adapter({
-  [CHAIN.ERA]: "https://api.studio.thegraph.com/query/4540/wagmi-zksync-era/v0.05",
-}, {
-  factoriesName: "factories",
-  dayData: "uniswapDayData",
-  dailyVolume: "volumeUSD",
-  totalVolume: "totalVolumeUSD",
-});
-
-adapters.adapter.era.start = async () => 1681257600;
-export default adapters;
+const adapter: SimpleAdapter = {
+  adapter: {
+    [CHAIN.ERA]: {
+      fetch: fetchVolume(CHAIN.ERA),
+      start: 1681257600,
+    },
+    [CHAIN.FANTOM]: {
+      fetch: fetchVolume(CHAIN.FANTOM),
+      start: 1681257600,
+    },
+    [CHAIN.ETHEREUM]: {
+      fetch: fetchVolume(CHAIN.ETHEREUM),
+      start: 18240112,
+    },
+    // [CHAIN.METIS]: {
+    //   fetch: fetchVolume(CHAIN.METIS),
+    //   start: 1702888970,
+    // },
+    // [CHAIN.KAVA]: {
+    //   fetch: fetchVolume(CHAIN.KAVA),
+    //   start: 1694476800,
+    // },
+  },
+};
+//
+export default adapter;

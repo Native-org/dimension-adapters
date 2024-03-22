@@ -1,3 +1,4 @@
+import ADDRESSES from '../../helpers/coreAssets.json'
 import { isAddressesUsable } from "../utils/countUsers";
 import { ProtocolAddresses } from "../utils/types";
 
@@ -305,7 +306,12 @@ export default ([
                 "0x05fF2B0DB69458A0750badebc4f9e13aDd608C7F",
                 "0x749fc0E64A3680531d31ACC1dAa8dda0bE438B02"
             ],
-            "aptos":["0xc7efb4076dbe143cbcd98cfaaa929ecfc8f299203dfff63b95ccb6bfe19850fa"]
+            "aptos":[
+                "0xc7efb4076dbe143cbcd98cfaaa929ecfc8f299203dfff63b95ccb6bfe19850fa"
+            ],
+            "base":[
+                "0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86", // smartrouter
+            ]
         }
     },
     {
@@ -419,6 +425,9 @@ export default ([
                 "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
             ],
             "xdai":[
+                "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+            ],
+            "base":[
                 "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
             ]
         }
@@ -743,6 +752,18 @@ export default ([
         "addresses":{
             "ethereum":[
                 "0x9a5132e149c547F254C73226DA7f770d43D9EA44"
+            ],
+            "base":[
+                "0x5C622Dcc96b6D96ac6c154f99CF081815094CBC9", //SmardexRouter
+            ],
+            "arbitrum":[
+                "0xdd4536dD9636564D891c919416880a3e250f975A", //SmardexRouter
+            ],
+            "polygon":[
+                "0xA8EF6FEa013034E62E2C4A9Ec1CDb059fE23Af33", //SmardexRouter
+            ],
+            "bsc":[
+                "0x391BeCc8DAaf32b9ba8e602e9527Bf9DA04C8deb", //SmardexRouter
             ]
         }
     },
@@ -905,7 +926,8 @@ export default ([
                 "0xE7b0CE0526fbE3969035a145C9e9691d4d9D216c"
             ],
             "arbitrum":[
-                "0xE7b0CE0526fbE3969035a145C9e9691d4d9D216c"
+                "0xE7b0CE0526fbE3969035a145C9e9691d4d9D216c",
+                "0x9E233DD6a90678BaaCd89c05ce5C48f43fCc106E"
             ],
             "optimism":[
                 "0x5130f6cE257B8F9bF7fac0A0b519Bd588120ed40", //ClipperPackedVerifiedExchange
@@ -917,6 +939,9 @@ export default ([
             ],
             "moonbeam":[
                 "0xCE37051a3e60587157DC4c0391B4C555c6E68255"
+            ],
+            "mantle":[
+                "0x769728b5298445BA2828c0f3F5384227fbF590C5" //ClipperPackedVerifiedExchange
             ]
         }
     },
@@ -1760,14 +1785,13 @@ export default ([
             ]
         }
     },*/
-    {
+   /*{ // commented due to inactive project/returning error
         "id":"392",
         "name":"WardenSwap",
         "addresses":{
             "bsc":[
                 "0x451ef8D6B645a60115EB8b8bEa76B39C0C761004",
                 "0x71ac17934b60A4610dc58b715B61e45DCBdE4054",
-                "0x0Bdc24946818C0Fe045A1D84d2Fe630e6e59B77D",
             ],
             "ethereum":[
                 "0x39f97198c5DbC193EB962c4B3B7e447091A18eAB"
@@ -1781,9 +1805,8 @@ export default ([
             "optimism":[
                 "0x7EA8c22E6Dcd7bd69eb180664Da68e1f1F11D696"
             ],
-            "polygon":[],
         }
-    },
+    },*/
     {
         "id":"351",
         "name":"Gravity Finance",
@@ -2304,6 +2327,7 @@ export default ([
         "addresses":{
             "arbitrum":[
                 "0xC67E9Efdb8a66A4B91b1f3731C75F500130373A4",
+                "0x2df1c51e09aecf9cacb7bc98cb1742757f163df7 "
             ],
         }
     },
@@ -2313,7 +2337,7 @@ export default ([
         "addresses":{
             "ethereum":[
                 "0xf403c135812408bfbe8713b5a23a04b3d48aae31",
-                "0x72a19342e8f1838460ebfccef09f6585e32db86e",
+                ADDRESSES.ethereum.vlCVX,
             ],
         }
     },
@@ -2328,6 +2352,8 @@ export default ([
             ],
         }
     },
+    /*
+    Only bridge addresses, not actual users
     {
         "id":"144",
         "name":"dYdX",
@@ -2340,6 +2366,7 @@ export default ([
             ],
         }
     },
+    */
     {
         "id":"parent#radiant",
         "name":"Radiant",
@@ -2450,7 +2477,7 @@ export default ([
                 "0x04B724389Dd28Ffc9a3A91Ab4149a77530282f04",//PrivateTgeVester
                 "0xA61f0d1d831BA4Be2ae253c13ff906d9463299c2",//PlutusChef
                 "0xb059Fc19371691aa7A3EC66dD80684FFE17A7D5c",//PlutusChef
-                "0x5326E71Ff593Ecc2CF7AcaE5Fe57582D6e74CFF1",//PlvGlpToken
+                ADDRESSES.arbitrum.plvGLP,//PlvGlpToken
                 "0x4E5Cf54FdE5E1237e80E87fcbA555d829e1307CE",//PlutusDAO: plvGLP Farm
                 "0x8c12e3C9b26Ee2e43A1a71cd974e6bF250472129",//SpaDepositor
                 "0x73e7c78E8a85C074733920f185d1c78163b555C8",//
@@ -2659,6 +2686,156 @@ export default ([
                 "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",//Router
             ]
         }
-    },         
-        
+    },
+    {
+        "id":"3377",
+        "name":"Friend.tech",
+        "addresses":{
+            "base":[
+                "0xcf205808ed36593aa40a44f10c7f7c2f67d4a4d4"
+            ]
+        }
+    }, 
+    {
+        "id":"970",
+        "name": "Drift",
+        "addresses":{
+            "solana":[
+                "dRiftyHA39MWEi3m9aunc5MzRF1JYuBsbn6VPcn33UH", // dex program id
+                "VAULtLeTwwUxpwAw98E6XmgaDeQucKgV5UaiAuQ655D", // vaults program id
+            ]
+        }
+    },
+    {
+        "id":"parent#baseswap",
+        "name": "BaseSwap",
+        "addresses":{
+            "base":[
+                "0x327Df1E6de05895d2ab08513aaDD9313Fe505d86", // router
+                "0xc102505248c36f933934d4B2d7579D962a342eBC",
+                "0x2B0A43DCcBD7d42c18F6A83F86D1a19fA58d541A",
+                "0xDe151D5c92BfAA288Db4B67c21CD55d5826bCc93", // NonfungiblePositionManager
+            ]
+        }
+    },
+    {
+        "id":"3575",
+        "name": "Scale",
+        "addresses":{
+            "base":[
+                "0x5E9d25014D01323d6F8c0C6640572e4444d11C94", // router
+                "0x3f0458FfB6D106d2F5CdeC9CEdc9054A69275489",
+                "0x2F87Bf58D5A9b2eFadE55Cdbd46153a0902be6FA"
+            ]
+        }
+    },
+    {
+        "id":"parent#swapbased",
+        "name": "SwapBased",
+        "addresses":{
+            "base":[
+                "0xaaa3b1F1bd7BCc97fD1917c18ADE665C5D31F066", // router
+                "0xcb9665E990027e115ccF22230b042e4E7eaBFDB2", // SingleStakingRewardsBase
+                "0xE39226E0864252E0fC9bD668FB796FD63a1B75A4", // SingleStakingRewardsBase
+                "0x2168eb98C6D416Afb85E7beef5abDc4FB4177dfE", // BlpToken
+                "0x265a30f14E34248567B5B0a83978C38dF38D0C60", // RewardRouter
+                "0xEfE632dB3A07FeBcEc04f76Ea54D9d49f27bCd57", // SingleStakingRewardsXBase
+                "0x272A9acB288915Bb52A0659c8F9f7bFeBA06fae5", // SingleStakingRewardsOtherTokens
+                "0x86dAbE269B1c5Ff7fCFf1eA32545489DF66C29EA", // SingleStakingRewardsOtherTokens
+            ]
+        }
+    },
+    {
+        "id":"parent#alien-base",
+        "name": "Alien Base",
+        "addresses":{
+            "base":[
+                "0x52eaeCAC2402633d98b95213d0b473E069D86590", // BasedDistributorV2
+                "0x7f2ff89d3C45010c976Ea6bb7715DC7098AF786E", // UniswapV2Router02
+                "0x927860797d07b1C46fbBe7f6f73D45C7E1BFBb27", // SwapFlashLoan
+                "0x8c1A3cF8f83074169FE5D7aD50B978e1cD6b37c7", // UniswapV2Router02
+                "0x3485F8E155973cC247CBEa9E77C0dBBB4BBb79E7", // UniswapV2Router02
+                "0xe0808b8e2bDD70D70e540f977cF40E26e5811054", // AlienbaseZapV1
+                "0xFBE87Ee1Ee62244A2dF80a8093Eab829C52863e8", // PredictionETH
+            ]
+        }
+    },
+    {
+        "id":"3348",
+        "name": "Soswap",
+        "addresses":{
+            "base":[
+                "0x53BAE026d9a503d46a58aF4b65FCcbb7B904A911", // SOFIProxy
+                "0xBC097E42BF1E6531C32C5cEe945E0c014fA21964", // PortfolioFactory
+                "0x1e6Dbd0E827cd243d458ed73B9Ae1a6Db89B8668", // PortfolioModule
+                "0x4E69553b0aEf0949Fd38Bbf3EbeD866B431C9E68", // ManagerModule
+                "0x73Ada4aE37Ba1DF45Ba12c4478a27029e24cF2d7", // SOFITrading
+            ]
+        }
+    },
+    {
+        "id":"3314",
+        "name": "RocketSwap Base",
+        "addresses":{
+            "base":[
+                "0x4cf76043B3f97ba06917cBd90F9e3A2AAC1B306e", // UniswapV2Router02
+                "0x234Ccb5c64FDB3958C47E8efBe122b2d54633a96", // RcktLocker
+                "0x32C9ACE2d1eB47C3968660De9eF20569f850814D", //
+                "0xE20d24cf9fAF458b98B6F34e5346361e6492aA5F",
+                "0x304063953727b53048500dfd877A17d1C4f6EaFf", // RcktMasterChef
+                "0x2ec62d08277FfC42eB5af71c7595C1a9f9458A3c", // RcktVault
+            ]
+        }
+    },
+    {
+        "id":"3540",
+        "name": "MoonBase",
+        "addresses":{
+            "base":[
+                "0x99554FA8B48F735D4Ccce5E077742cF2D084b258", // MoonChef
+                "0x4617695387bE48c3202a0A9165549c790C4A08Af", // UniswapRouter
+            ]
+        }
+    },
+    {
+        "id":"3380",
+        "name": "Baso Finance",
+        "addresses":{
+            "base":[
+                "0x5568e4F19B9063E0e0386bF66B3eeF2b65327486", // Router
+                "0x84B5897A23B067D87Be550e440a3436f6d149fe2", // VotingEscrow
+                "0xf11432A2754fCf7BFA1725d37e65840776e39ec7", // RewardsDistributor
+                "0xb670568C84C541eacBee2EF7209A6Ba2Ab349BEC", // Voter
+                "0xF0FfC7cd3C15EF94C7c5CAE3F39d53206170Fc01", // BasoStaking
+            ]
+        }
+    },
+    {
+        "id":"parent#canary",
+        "name":"Canary",
+        "addresses":{
+            "avax":[
+                "0x06f8ED60393AC6A4B16900273C9313222dfe9940"
+            ]
+        }
+    },
+    {
+        "id":"3977",
+        "name": "SquaDeFi",
+        "addresses":{
+            "base":[
+                "0xfad362E479AA318F2De7b2c8a1993Df9BB2B3b1f", // KeyManager
+            ]
+        }
+    },
+    {
+        "id":"3107",
+        "name":"EigenLayer",
+        "addresses":{
+            "ethereum":[
+                "0x858646372cc42e1a627fce94aa7a7033e7cf075a"
+            ]
+        }
+    }
+    
 ] as ProtocolAddresses[]).filter(isAddressesUsable)

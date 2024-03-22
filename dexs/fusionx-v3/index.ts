@@ -3,7 +3,7 @@ import { CHAIN } from "../../helpers/chains";
 import { DEFAULT_TOTAL_VOLUME_FIELD, getGraphDimensions } from "../../helpers/getUniSubgraph";
 
 const v3Endpoints = {
-  [CHAIN.MANTLE]: "https://graph.fusionx.finance/subgraphs/name/fusionx/exchange-v3"
+  [CHAIN.MANTLE]: "https://graphv3.fusionx.finance/subgraphs/name/fusionx/exchange-v3"
 }
 
 const VOLUME_USD = "volumeUSD";
@@ -34,10 +34,11 @@ const v3Graphs = getGraphDimensions({
 });
 
 const adapter: SimpleAdapter = {
+  version: 2,
   adapter: {
     [CHAIN.MANTLE]: {
       fetch: v3Graphs(CHAIN.MANTLE),
-      start: async () => 1689206400,
+      start: 1689206400,
     },
   },
 };

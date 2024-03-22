@@ -1,8 +1,14 @@
-import { utils } from "ethers";
 import { request, gql } from "graphql-request";
-
+import { Chain } from "@defillama/sdk/build/general";
+import { getBlock } from "../../helpers/getBlock";
+import { getUniqStartOfTodayTimestamp } from "../../helpers/getUniSubgraphVolume";
+import { ethers } from "ethers";
 interface GqlResult {
-  factoryDayData: {
+  today: {
+    volumeUSD: string;
+    premiumsUSD: string;
+  };
+  yesterday: {
     volumeUSD: string;
     premiumsUSD: string;
   };
@@ -10,6 +16,7 @@ interface GqlResult {
     volumeUSD: string;
     premiumsUSD: string;
   }>;
+
 }
 
 const chainDataQuery = gql`
@@ -40,7 +47,7 @@ function get2Days(array: Array<any>, key: string): [string, string] {
 }
 
 function toNumber(value: string): number {
-  return Number(utils.formatEther(value));
+  return Number(ethers.formatEther(value));
 }
 
 function calcLast24hrsVolume(values: [string, string]): number {
@@ -49,26 +56,35 @@ function calcLast24hrsVolume(values: [string, string]): number {
 
 async function getChainData(
   url: string,
-  timestamp: number
+  timestamp: number,
+  chain: Chain
 ): Promise<ChainData> {
-  const dailyId = Math.floor(timestamp / 86400);
+  const dayTimestamp = getUniqStartOfTodayTimestamp(new Date(timestamp * 1000))
+  const fromTimestamp = dayTimestamp - 60 * 60 * 24;
+  const dailyId = Math.floor(dayTimestamp / 86400);
+  const yesterdayId = Math.floor(fromTimestamp / 86400);
+  const block = (await getBlock(fromTimestamp,chain, {}))
   const query = gql`
   {
-      factoryDayData(id: ${dailyId}) {
+      today:factoryDayData(id: ${dailyId}) {
         volumeUSD
         premiumsUSD
       }
-      factories{
+      yesterday:factoryDayData(id: ${yesterdayId}) {
+        volumeUSD
+        premiumsUSD
+      }
+      factories(block:{number: ${block}}) {
         volumeUSD
         premiumsUSD
       }
   }
   `
-  const { factoryDayData, factories }: GqlResult = await request(url, query);
-  const dailyPremiumVolume = toNumber(factoryDayData?.premiumsUSD || '0');
-  const dailyNotionalVolume = toNumber(factoryDayData?.volumeUSD || '0');
-  const totalPremiumVolume = toNumber(factories[0]?.premiumsUSD || '0');
-  const totalNotionalVolume = toNumber(factories[0]?.volumeUSD || '0');
+  const  response :GqlResult = await request(url, query);
+  const dailyPremiumVolume = Math.abs(toNumber(response.today?.premiumsUSD || '0') - toNumber(response.yesterday?.premiumsUSD || '0'));
+  const dailyNotionalVolume = Math.abs(toNumber(response.today?.volumeUSD || '0') - toNumber(response.yesterday?.volumeUSD || '0'));
+  const totalPremiumVolume = Math.abs(toNumber(response.factories[0]?.premiumsUSD || '0'));
+  const totalNotionalVolume = Math.abs(toNumber(response.factories[0]?.volumeUSD || '0'));
 
   return {
     timestamp,
